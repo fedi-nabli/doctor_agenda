@@ -57,6 +57,7 @@ class DatabaseApi():
     from models.doctor_model import Doctor
     from models.patient_model import Patient
     from models.speciality_model import Speciality
+    from models.appointment_model import Appointment
 
     with self.app.app_context():
       db.create_all()
