@@ -1,7 +1,20 @@
 from datetime import datetime
-from sqlalchemy import Column, String, DateTime, Integer
+from sqlalchemy import Column, String, DateTime, Integer, ForeignKey
+from sqlalchemy.orm import relationship
 
 from database.db import db
+
+class Address(db.Model):
+  id = Column(Integer, primary_key=True)
+  ville = Column(String(150), nullable=False)
+  gouvernerat = Column(String(150), nullable=False)
+  postal_code = Column(String(5), nullable=False)
+  created_at = Column(DateTime, nullable=False, default=datetime.now())
+
+  doctor = relationship("Doctor", back_populates="address", uselist=False)
+
+  def __repr__(self) -> str:
+    return f'Address({self.id}, {self.ville}, {self.gouvernerat}, {self.postal_code})'
 
 class Doctor(db.Model):
   id = Column(Integer, primary_key=True)
@@ -12,6 +25,9 @@ class Doctor(db.Model):
   phone = Column(String(8), nullable=False)
   max_rendez_vous = Column(Integer, nullable=False)
   created_at = Column(DateTime, nullable=False, default=datetime.now())
+  
+  address_id = Column(Integer, ForeignKey('address.id'), nullable=False)
+  address = relationship("Address", back_populates="doctor")
 
   def __repr__(self) -> str:
     return f'Doctor({self.email}, {self.id}, {self.name}, {self.prenom})'

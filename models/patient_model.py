@@ -12,5 +12,5 @@ class Patient(db.Model):
   phone = Column(String(8), nullable=False)
   created_at = Column(DateTime, nullable=False, default=datetime.now())
 
-  def __repr__(self):
+  def __repr__(self) -> str:
     return f'Patient({self.email}, {self.id}, {self.name}, {self.prenom})'
