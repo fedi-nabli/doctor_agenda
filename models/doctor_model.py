@@ -25,9 +25,11 @@ class Doctor(db.Model):
   phone = Column(String(8), nullable=False)
   max_rendez_vous = Column(Integer, nullable=False)
   created_at = Column(DateTime, nullable=False, default=datetime.now())
-  
-  address_id = Column(Integer, ForeignKey('address.id'), nullable=False)
-  address = relationship("Address", back_populates="doctor")
+
+  address_id = Column(Integer, ForeignKey('address.id'), unique=True, nullable=False)
+  address = relationship("Address", back_populates="doctor", uselist=False)
+
+  speciality = relationship("Speciality", back_populates="doctor", uselist=True)
 
   def __repr__(self) -> str:
     return f'Doctor({self.email}, {self.id}, {self.name}, {self.prenom})'
