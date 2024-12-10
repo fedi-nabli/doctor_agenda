@@ -54,5 +54,7 @@ class DatabaseApi():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
   def create_models(self, db: SQLAlchemy) -> None:
+    from models.doctor_model import Doctor
+
     with self.app.app_context():
       db.create_all()
