@@ -14,6 +14,7 @@ DB_HOST = os.getenv('DB_HOST')
 DB_PORT = os.getenv('DB_PORT')
 DB_USER = os.getenv('DB_USER')
 DB_PASS = os.getenv('DB_PASS')
+DB_PASS_ENCODED = os.getenv('DB_PASS_ENCODED')
 DB_NAME = os.getenv('DB_NAME')
 
 class DatabaseApi():
@@ -30,9 +31,9 @@ class DatabaseApi():
 
     cursor.execute('SHOW DATABASES')
     found = False
-    for db in cursor:
+    for db_name in cursor:
       pattern = "[(,')]"
-      db_string = re.sub(pattern, '', str(db))
+      db_string = re.sub(pattern, '', str(db_name))
       if db_string == DB_NAME.lower():
         found = True
 
@@ -49,9 +50,8 @@ class DatabaseApi():
 
     connection.close()
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://{DB_USER}:{DB_PASS_ENCODED}@{DB_HOST}/{DB_NAME}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    self.db = SQLAlchemy()
 
   def create_models(self, db: SQLAlchemy) -> None:
     with self.app.app_context():
