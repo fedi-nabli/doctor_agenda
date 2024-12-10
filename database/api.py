@@ -55,6 +55,7 @@ class DatabaseApi():
 
   def create_models(self, db: SQLAlchemy) -> None:
     from models.doctor_model import Doctor
+    from models.patient_model import Patient
 
     with self.app.app_context():
       db.create_all()
