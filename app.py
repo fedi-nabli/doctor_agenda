@@ -5,7 +5,7 @@ from database.db import db
 from database.api import DatabaseApi
 from utils.error_handler import error_handler
 
-from controllers.doctor_controller import list_doctors, get_doctor_specialities
+from controllers.speciality_controller import list_specialities
 
 app = Flask(__name__)
 CORS(app)
@@ -21,7 +21,7 @@ def home():
 
 @app.route('/doctors')
 def get_doctors():
-  doctors = list_doctors('Nabli', 'Fedi', 'sousse')
+  doctors = list_specialities(1)
   return {'doctors': doctors}
 
 if __name__ == '__main__':
